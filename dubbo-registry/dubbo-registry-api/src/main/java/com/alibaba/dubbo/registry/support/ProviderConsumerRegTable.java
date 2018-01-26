@@ -44,7 +44,7 @@ public class ProviderConsumerRegTable {
      */
     public static void registerProvider(Invoker invoker, URL registryUrl, URL providerUrl) {
         ProviderInvokerWrapper wrapperInvoker = new ProviderInvokerWrapper(invoker, registryUrl, providerUrl);
-        String serviceUniqueName = providerUrl.getServiceKey();// todo ericliu 协议格式 group/interface:version
+        String serviceUniqueName = providerUrl.getServiceKey();// todo ericliu 协议格式 <group/>interface<:version>
         Set<ProviderInvokerWrapper> invokers = providerInvokers.get(serviceUniqueName);
         if (invokers == null) {
             providerInvokers.putIfAbsent(serviceUniqueName, new ConcurrentHashSet<ProviderInvokerWrapper>());
@@ -74,7 +74,7 @@ public class ProviderConsumerRegTable {
 
         for (ProviderInvokerWrapper providerWrapper : invokers) {
             Invoker providerInvoker = providerWrapper.getInvoker();
-            if (providerInvoker == invoker) {
+            if (providerInvoker == invoker) {//TODO ericliu 因为Invoker是单例才敢这么玩！
                 return providerWrapper;
             }
         }

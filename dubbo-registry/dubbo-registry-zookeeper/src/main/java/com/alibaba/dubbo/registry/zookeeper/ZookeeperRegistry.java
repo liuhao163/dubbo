@@ -167,6 +167,8 @@ public class ZookeeperRegistry extends FailbackRegistry {
                         zkListeners.putIfAbsent(url, new ConcurrentHashMap<NotifyListener, ChildListener>());
                         listeners = zkListeners.get(url);
                     }
+
+                    //todo ericliu mark!!! 这几个listerner
                     ChildListener zkListener = listeners.get(listener);
                     if (zkListener == null) {
                         listeners.putIfAbsent(listener, new ChildListener() {
