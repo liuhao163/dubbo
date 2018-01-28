@@ -314,7 +314,11 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         if (path == null || path.length() == 0) {
             path = interfaceName;//注册中心注册时候url的path
         }
+        //todo ericliu 暴露端口（netty），
+        //todo ericliu 注册到zookeeper中去，path：/dubbo/<interface>/providers/url ; /dubbo/<interface>/configurators
+        //todo ericliu 监听这些path
         doExportUrls();
+
         ProviderModel providerModel = new ProviderModel(getUniqueServiceName(), this, ref);
         ApplicationModel.initProviderModel(getUniqueServiceName(), providerModel);
     }

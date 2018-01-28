@@ -76,6 +76,7 @@ public class ProviderModel {
         return null;
     }
 
+    //todo ericliu 利用反射初始化接口暴露的方法信息。List<new ProviderMethodModel(方法、服务唯一标示、方法名、参数类型）等>
     private void initMethod() {
         Method[] methodsToExport = null;
         methodsToExport = metadata.getInterfaceClass().getMethods();
