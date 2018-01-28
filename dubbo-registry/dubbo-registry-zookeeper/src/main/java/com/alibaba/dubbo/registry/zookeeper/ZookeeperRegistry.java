@@ -162,28 +162,35 @@ public class ZookeeperRegistry extends FailbackRegistry {
             } else {
                 List<URL> urls = new ArrayList<URL>();
                 for (String path : toCategoriesPath(url)) {
+                    //todo ericliu map<url ConcurrentMap<observerListener,childListener>>
                     ConcurrentMap<NotifyListener, ChildListener> listeners = zkListeners.get(url);
                     if (listeners == null) {
                         zkListeners.putIfAbsent(url, new ConcurrentHashMap<NotifyListener, ChildListener>());
                         listeners = zkListeners.get(url);
                     }
 
-                    //todo ericliu mark!!! 这几个listerner
                     ChildListener zkListener = listeners.get(listener);
                     if (zkListener == null) {
                         listeners.putIfAbsent(listener, new ChildListener() {
                             public void childChanged(String parentPath, List<String> currentChilds) {
+                                //todo ericliu
+                                //todo ericliu 为/dubbo/interface/configurators增加监听类
+                                //todo ericliu 当子目录有变化时候调用notfiy(url,listerner,url)
+                                //todo ericliu 调用练FailbackRegistry.notify-->调用练FailbackRegistry.doNotify-->AbstractRegistry.notify-->listener
                                 ZookeeperRegistry.this.notify(url, listener, toUrlsWithEmpty(url, parentPath, currentChilds));
                             }
                         });
                         zkListener = listeners.get(listener);
                     }
+                    //todo 创建 configurators目录，同时为目录增加Childlisterner
                     zkClient.create(path, false);
                     List<String> children = zkClient.addChildListener(path, zkListener);
                     if (children != null) {
+                        //todo 将url的protcal转换成empty,同事将category参数转成path的最后一截
                         urls.addAll(toUrlsWithEmpty(url, path, children));
                     }
                 }
+                //todo ericliu手动调用notify(): FailbackRegistry.notify(); 同ChildListener.childChanged中的路基
                 notify(url, listener, urls);
             }
         } catch (Throwable e) {

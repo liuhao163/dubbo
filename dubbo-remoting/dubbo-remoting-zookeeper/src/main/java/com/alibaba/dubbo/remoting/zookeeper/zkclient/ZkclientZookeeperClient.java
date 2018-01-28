@@ -109,6 +109,7 @@ public class ZkclientZookeeperClient extends AbstractZookeeperClient<IZkChildLis
         client.close();
     }
 
+    //todo ericliu 创建ChildListener
     public IZkChildListener createTargetChildListener(String path, final ChildListener listener) {
         return new IZkChildListener() {
             public void handleChildChange(String parentPath, List<String> currentChilds)
@@ -118,6 +119,7 @@ public class ZkclientZookeeperClient extends AbstractZookeeperClient<IZkChildLis
         };
     }
 
+    //todo ericliu 为目录增加IZkChildListener监听器，监听dir变化
     public List<String> addTargetChildListener(String path, final IZkChildListener listener) {
         return client.subscribeChildChanges(path, listener);
     }
