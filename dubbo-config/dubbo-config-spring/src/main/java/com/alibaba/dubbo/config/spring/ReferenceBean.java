@@ -55,10 +55,12 @@ public class ReferenceBean<T> extends ReferenceConfig<T> implements FactoryBean,
         SpringExtensionFactory.addApplicationContext(applicationContext);
     }
 
+    //todo ericliu 实现了FactoryBean的getObject方法，得到Consumner对象,调用ReferenceConfig的createProxy方法创建ref
     public Object getObject() throws Exception {
         return get();
     }
 
+    //todo ericliu 实现了FactoryBean的getObjectType方法，得到Consumner注册的接口类型
     public Class<?> getObjectType() {
         return getInterfaceClass();
     }
@@ -68,6 +70,7 @@ public class ReferenceBean<T> extends ReferenceConfig<T> implements FactoryBean,
         return true;
     }
 
+    //todo 实现InitializingBean的afterPropertiesSet方法，初始化一些变量
     @SuppressWarnings({"unchecked"})
     public void afterPropertiesSet() throws Exception {
         if (getConsumer() == null) {
