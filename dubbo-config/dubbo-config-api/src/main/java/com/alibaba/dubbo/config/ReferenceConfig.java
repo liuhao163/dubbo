@@ -160,7 +160,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
             throw new IllegalStateException("Already destroyed!");
         }
         if (ref == null) {
-            init();
+            init();//todo ericliu 初始化
         }
         return ref;
     }
@@ -190,6 +190,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         if (interfaceName == null || interfaceName.length() == 0) {
             throw new IllegalStateException("<dubbo:reference interface=\"\" /> interface not allow null!");
         }
+        //todo  eircliu check setting
         // get consumer's global configuration
         checkDefault();
         appendProperties(this);
@@ -277,6 +278,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         }
         checkApplication();
         checkStubAndMock(interfaceClass);
+        //todo  eircliu create map for make url
         Map<String, String> map = new HashMap<String, String>();
         Map<Object, Object> attributes = new HashMap<Object, Object>();
         map.put(Constants.SIDE_KEY, Constants.CONSUMER_SIDE);
